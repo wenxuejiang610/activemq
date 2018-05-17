@@ -5,13 +5,13 @@
 
     <import resource="common.xml"/>
 
-    <bean id="queueDestination" class="org.apache.activemq.command.ActiveMQQueue">
-        <constructor-arg value="queue"/>
-    </bean>
+    <!-- 消息监听器 -->
+    <bean id="consumerMessageListener" class="com.demo.springJms.consumer.ConsumerMessageListener"/>
 
-    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+    <!-- 配置消息容器 -->
+    <bean id="jmsContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
         <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="destination" ref="queueDestination"/>
+        <property name="messageListener" ref="consumerMessageListener"/>
     </bean>
-
-    <bean class="com.demo.springJms.producer.ProducerServiceImpl"/>
 </beans>

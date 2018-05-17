@@ -1,4 +1,4 @@
-package com.demo.jms.queue;
+package com.demo.jms.topic;
 
 import com.demo.jms.util.AppUtil;
 
@@ -6,15 +6,15 @@ import javax.jms.*;
 
 public class AppProducer {
     //队列的名字
-    public static final String queueName = "queue-test";
+    public static final String topicName = "topic-test";
 
     public static void main(String[] args) throws JMSException {
-        Connection connection = AppUtil.getConnection();
+        Connection connection = AppUtil.getConnectionProductor();
         //4.创建会话(第一个参数代表事物，自动应答)
         Session session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE);
 
         //5.创建一个目标
-        Destination destination = session.createQueue(queueName);
+        Destination destination = session.createTopic(topicName);
 
         //6.创建生产者
         MessageProducer producer = session.createProducer(destination);

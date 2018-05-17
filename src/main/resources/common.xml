@@ -7,7 +7,7 @@
     <context:annotation-config/>
     <!-- ActiveMQ为我们提供的 -->
     <bean id="targetConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
-        <property name="brokerURL" value="tcp://127.0.0.1:61616"/>
+        <property name="brokerURL" value="failover:(tcp://127.0.0.1:61617,tcp://127.0.0.1:61618)?randomize=true"/>
     </bean>
 
     <!-- spring JMS为我们提供的连接池 -->
@@ -15,13 +15,13 @@
         <constructor-arg name="targetConnectionFactory" ref="targetConnectionFactory"/>
     </bean>
 
+    <!-- 队列模式 -->
     <bean id="queueDestination" class="org.apache.activemq.command.ActiveMQQueue">
         <constructor-arg value="queue"/>
     </bean>
 
-    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
-        <property name="connectionFactory" ref="connectionFactory"/>
+    <!-- 主题模式 -->
+    <bean id="topicDestination" class="org.apache.activemq.command.ActiveMQTopic">
+        <constructor-arg value="topic"/>
     </bean>
-
-    <bean class="com.demo.springJms.producer.ProducerServiceImpl"/>
 </beans>
